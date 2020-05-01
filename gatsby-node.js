@@ -52,7 +52,6 @@ exports.createPages = async ({ graphql, actions }) => {
       component: panelPost,
       context: {
         slug: panel.node.slug,
-        titulo: panel.node.titulo,
         previous,
         next,
       },

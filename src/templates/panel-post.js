@@ -7,15 +7,16 @@ import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 
 const PanelPostTemplate = ({ data, pageContext, location }) => {
-  const post = data.markdownRemark
+  const panel = this.props.data.contentfulPanelVirtual
   const siteTitle = data.site.siteMetadata.title
+  const siteAuthor = data.site.siteMetadata.author.name
   const { previous, next } = pageContext
 
   return (
     <Layout location={location} title={siteTitle}>
       <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
+        title={panel.frontmatter.titulo}
+        //description={post.frontmatter.description || post.excerpt}
       />
       <article>
         <header>
@@ -25,8 +26,11 @@ const PanelPostTemplate = ({ data, pageContext, location }) => {
               marginBottom: 0,
             }}
           >
-            {post.frontmatter.title}
+            {panel.frontmatter.titulo}
           </h1>
+          <h3>
+            {siteAuthor}
+          </h3>
           <p
             style={{
               ...scale(-1 / 5),
@@ -34,10 +38,10 @@ const PanelPostTemplate = ({ data, pageContext, location }) => {
               marginBottom: rhythm(1),
             }}
           >
-            {post.frontmatter.date}
+            {panel.frontmatter.exponente}
           </p>
         </header>
-        <section dangerouslySetInnerHTML={{ __html: post.html }} />
+        <section dangerouslySetInnerHTML={{ __html: panel.html }} />
         <hr
           style={{
             marginBottom: rhythm(1),
@@ -61,14 +65,14 @@ const PanelPostTemplate = ({ data, pageContext, location }) => {
           <li>
             {previous && (
               <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
+                ← {previous.frontmatter.titulo}
               </Link>
             )}
           </li>
           <li>
             {next && (
               <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+                {next.frontmatter.titulo} →
               </Link>
             )}
           </li>
@@ -81,30 +85,18 @@ const PanelPostTemplate = ({ data, pageContext, location }) => {
 export default PanelPostTemplate
 
 export const pageQuery = graphql`
-  {
-    allContentfulPanelVirtual(sort: {fields: createdAt}) {
-      edges {
-        node {
-          childContentfulPanelVirtualAgendaRichTextNode {
-            childContentfulRichText {
-              html
-            }
-          }
-          createdAt(formatString: "YYYY-MM-DD")
-          diaYHora(formatString: "hh:mm")
-          exponente
-          imagen {
-            file {
-              url
-            }
-          }
-          invitadosas
-          slug
-          tema
-          titulo
-          zoomLink
+  query PanelPostBySlug($slug: String!) {
+    site {
+      siteMetadata {
+        title
+        author {
+          name
         }
       }
+    }
+    contentfulPanelVirtual ( slug: { eq: $slug }) {
+      titulo
+      exponente
     }
   }
 `
