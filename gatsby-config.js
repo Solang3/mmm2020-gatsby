@@ -1,14 +1,21 @@
+const dotenv = require('dotenv')
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config()
+}
+// npm i @contentful/rich-text-types
+const { BLOCKS, MARKS, INLINES } = require('@contentful/rich-text-types')
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `MMM2020`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Solange Gonzalez`,
+      summary: `Marcha Mundial de la Marihuana 2020`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    description: `Pagina de difusión de información sobre el cannabis.`,
+    siteUrl: `https://mmm2020.digital/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `mmm2020`,
     },
   },
   plugins: [
@@ -60,10 +67,10 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `MMM2020`,
+        short_name: `MMM2020`,
         start_url: `/`,
-        background_color: `#ffffff`,
+        background_color: `#333333`,
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `content/assets/gatsby-icon.png`,
@@ -76,6 +83,16 @@ module.exports = {
         pathToConfigModule: `src/utils/typography`,
       },
     },
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `hwspsp92kmt9`,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+      },
+    },
+    {
+      resolve: '@contentful/gatsby-transformer-contentful-richtext',
+    }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
