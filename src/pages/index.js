@@ -54,23 +54,27 @@ export const pageQuery = graphql`
       }
     }
     allContentfulPanelVirtual(sort: {fields: createdAt}) {
-      nodes {
-        childContentfulPanelVirtualAgendaRichTextNode {
-          childContentfulRichText {
-            html
+      edges {
+        node {
+          createdAt(formatString: "YYYY-MM-DD")
+          slug
+          imagen {
+            file {
+              url
+            }
           }
-        }
-        diaYHora
-        exponente
-        imagen {
-          file {
-            url
+          tema
+          titulo
+          exponente
+          invitadosas
+          childContentfulPanelVirtualAgendaRichTextNode {
+            childContentfulRichText {
+              html
+            }
           }
+          diaYHora(formatString: "hh:mm")
+          zoomLink
         }
-        slug
-        tema
-        titulo
-        zoomLink
       }
     }
   }
